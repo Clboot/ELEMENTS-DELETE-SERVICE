@@ -35,7 +35,7 @@ class DeleteProject {
             dao.connect()
             newItemsObject.map((item, index) =>{
 
-                dao.query('insert into recycle_bin(name, item_id, type, id_before, parent_id, date_creation) values($1, $2, $3, $4, $5, NOW())', [item.name, item.item_id, item.type, item.id_before, item.parent_id], (result) => {
+                dao.query('insert into recycle_bin(name, item_id, type, id_before, parent_id, parent, date_creation) values($1, $2, $3, $4, $5, $6, NOW())', [item.name, item.item_id, item.type, item.id_before, item.parent_id, item.parent], (result) => {
                     if (result.rowCount > 0) {
                         if(itemObjectArrayLength === (index + 1)){
                             pgJsonResult = { operation: 200 }

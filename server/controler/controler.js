@@ -12,7 +12,7 @@ const recycle = (req, res) => {
     let reponseJSON = { operation: process.env.HTTP_OK }
 
     //check if our req.body contains all properties we are expecting
-    const properties = ['name', 'item_id', 'type', 'id_before', 'parent_id']
+    const properties = ['name', 'item_id', 'type', 'id_before', 'parent_id', 'parent']
     const bodyJsonValue = req.body
     try {
 
@@ -23,7 +23,7 @@ const recycle = (req, res) => {
 
      
         let newItemsObject = bodyJsonValue.items.map(item => {
-            if (!Object.prototype.hasOwnProperty.call(item, 'name') || !Object.prototype.hasOwnProperty.call(item, 'item_id') || !Object.prototype.hasOwnProperty.call(item, 'type') || !Object.prototype.hasOwnProperty.call(item, 'id_before') || !Object.prototype.hasOwnProperty.call(item, 'parent_id')) {
+            if (!Object.prototype.hasOwnProperty.call(item, 'name') || !Object.prototype.hasOwnProperty.call(item, 'item_id') || !Object.prototype.hasOwnProperty.call(item, 'type') || !Object.prototype.hasOwnProperty.call(item, 'id_before') || !Object.prototype.hasOwnProperty.call(item, 'parent_id') || !Object.prototype.hasOwnProperty.call(item, 'parent')) {
                 reponseJSON = { erreur: process.env.PROPERTY_NOT_FOUND }
                 throw new Error('Property not found')
             }
@@ -33,7 +33,8 @@ const recycle = (req, res) => {
                 item_id : item.item_id,
                 type: item.type.trim(),
                 id_before: item.id_before,
-                parent_id: item.parent_id
+                parent_id: item.parent_id,
+                parent: item.parent
             }
         })
 
