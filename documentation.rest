@@ -1,0 +1,12 @@
+
+DELETE http://localhost:8097/recycle_bin HTTP/1.1 
+content-type: application/json
+
+{"items": [
+            {"name": "OUvrier", "item_id" : "27", "type" : "Project", "id_before": "24", "parent_id" : "23"},
+            {"name": "OUvrier", "item_id" : "28", "type" : "Project", "id_before": "24", "parent_id" : "23"}
+         ]
+}
+
+
+
