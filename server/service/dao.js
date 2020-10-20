@@ -5,11 +5,11 @@ let client = {}
 
 function connect () {
     client = new Client({
-        host: "localhost",
-        port: 5432,
-        database: "cl_boot_db",
-        user: "postgres",
-        password: "postgres"
+        host: process.env.DB_HOST,
+        port: process.env.DB_PORT,
+        database: process.env.DATABASE,
+        user: process.env.DB_USER,
+        password: process.env.DB_PASSWORD
     })
     client.connect((error) => {
         if (error) {
