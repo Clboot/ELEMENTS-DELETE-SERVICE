@@ -9,7 +9,7 @@ require("dotenv").config()
 
 const recycle = (req, res) => {
 
-    let reponseJSON = { operation: process.env.HTTP_OK }
+    let reponseJSON = { erreur: process.env.UNKNOWN_ERROR }
 
     //check if our req.body contains all properties we are expecting
     const properties = ['name', 'item_id', 'type', 'id_before', 'parent_id', 'parent']
