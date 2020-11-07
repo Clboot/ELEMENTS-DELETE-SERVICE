@@ -1,12 +1,10 @@
 
-DELETE http://localhost:8097/recycle_bin HTTP/1.1 
+DELETE http://localhost:8080/api/elements/delete/recycle_bin HTTP/1.1 
 content-type: application/json
 
-{"items": [
-            {"name": "OUvrier", "item_id" : "27", "type" : "Project", "id_before": "24", "parent_id" : "23"},
-            {"name": "OUvrier", "item_id" : "28", "type" : "Project", "id_before": "24", "parent_id" : "23"}
-         ]
-}
+[
+   {"name": "data_value", "item_id": "19","type": "Element", "parent_id": "15","parent": "project"}
+]
 
 
 
