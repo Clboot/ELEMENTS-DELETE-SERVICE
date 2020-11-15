@@ -20,7 +20,8 @@ const recycle = (req, res) => {
         !Object.prototype.hasOwnProperty.call(item, "name") ||
         !Object.prototype.hasOwnProperty.call(item, "item_id") ||
         !Object.prototype.hasOwnProperty.call(item, "type") ||
-        !Object.prototype.hasOwnProperty.call(item, "parent_id")
+        !Object.prototype.hasOwnProperty.call(item, "parent_id") ||
+        !Object.prototype.hasOwnProperty.call(item, "parent")
       ) {
         reponseJSON = { erreur: process.env.PROPERTY_NOT_FOUND };
         throw new Error("Property not found");
