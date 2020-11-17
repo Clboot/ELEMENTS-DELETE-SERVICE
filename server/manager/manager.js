@@ -1,7 +1,7 @@
 const dao = require("../service/dao");
 require("dotenv").config();
 
-class DeleteProject {
+class DeleteElements {
   static delete(newItemsObject) {
     let pgJsonResult = null;
     const itemObjectArrayLength = newItemsObject.length;
@@ -57,5 +57,5 @@ class DeleteProject {
   }
 }
 module.exports = {
-  DeleteProject,
+  DeleteElements,
 };

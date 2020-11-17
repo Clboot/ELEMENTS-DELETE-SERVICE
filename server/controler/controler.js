@@ -31,9 +31,9 @@ const recycle = (req, res) => {
       };
     });
 
-    manager.DeleteProject.delete(newItemsObject).then((result) => {
+    manager.DeleteElements.delete(newItemsObject).then((result) => {
       if (result.operation == "200") {
-        manager.DeleteProject.recycle(newItemsObject).then((result) => {
+        manager.DeleteElements.recycle(newItemsObject).then((result) => {
           if (result.operation == "200") {
             sendData(res, result);
           }
