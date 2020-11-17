@@ -1,7 +1,5 @@
 //-----------------------------------All required modules-----------------------------------------
 const manager = require("../manager/manager");
-const remove_offensives = require("./remove_offensives");
-const dao = require("../service/dao");
 require("dotenv").config();
 //-----------------------------------------------------------------------------------------------
 
@@ -10,9 +8,6 @@ require("dotenv").config();
 const recycle = (req, res) => {
   let reponseJSON = { erreur: process.env.UNKNOWN_ERROR };
 
-  //check if our req.body contains all properties we are expecting
-
-  const properties = ["name", "item_id", "type", "parent_id", "parent"];
   const bodyJsonValue = req.body;
   try {
     let newItemsObject = bodyJsonValue.map((item) => {
@@ -44,8 +39,8 @@ const recycle = (req, res) => {
           }
         });
       } else {
-        pgJsonResult = { error: process.env.PROJECT_ALREADY_EXISTS };
-        sendData(res, pgJsonResult);
+        reponseJSON = { error: process.env.PROJECT_ALREADY_EXISTS };
+        sendData(res, reponseJSON);
       }
     });
   } catch (err) {
