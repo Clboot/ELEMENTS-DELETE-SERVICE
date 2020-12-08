@@ -1,4 +1,4 @@
-const dao = require("../service/dao");
+const { pool, shutdown } = require("../service/dao");
 require("dotenv").config();
 
 class DeleteElements {
@@ -6,26 +6,29 @@ class DeleteElements {
     let pgJsonResult = null;
     const itemObjectArrayLength = newItemsObject.length;
     return new Promise((resolve) => {
-      dao.connect();
+      pool.connect((err, client, done) => {
+        if (err) {
+          throw err;
+        }
       newItemsObject.map((item, index) => {
-        dao.query(
+        client.query(
           "delete from elements where id = $1",
           [item.item_id],
-          (result) => {
+          (error, result) => {
             if (result.rowCount > 0) {
               if (itemObjectArrayLength == index + 1) {
                 pgJsonResult = { operation: 200 };
                 resolve(pgJsonResult);
-                dao.disconnect();
               }
             } else {
               pgJsonResult = { error: process.env.PROJECT_ALREADY_EXISTS };
               resolve(pgJsonResult);
-              dao.disconnect();
             }
           }
         );
       });
+
+    })
     });
   }
 
@@ -33,26 +36,29 @@ class DeleteElements {
     let pgJsonResult = null;
     const itemObjectArrayLength = newItemsObject.length;
     return new Promise((resolve) => {
-      dao.connect();
+      pool.connect((err, client, done) => {
+        if (err) {
+          throw err;
+        }
       newItemsObject.map((item, index) => {
-        dao.query(
+        client.query(
           "insert into recycle_bin(name, item_id, type, parent_id, parent, date_creation) values($1, $2, $3, $4, $5, NOW())",
           [item.name, item.item_id, item.type, item.parent_id, item.parent],
-          (result) => {
+          (error, result) => {
             if (result.rowCount > 0) {
               if (itemObjectArrayLength === index + 1) {
                 pgJsonResult = { operation: 200 };
                 resolve(pgJsonResult);
-                dao.disconnect();
               }
             } else {
               pgJsonResult = { error: process.env.PROJECT_ALREADY_EXISTS };
               resolve(pgJsonResult);
-              dao.disconnect();
             }
           }
         );
       });
+
+    })
     });
   }
 }

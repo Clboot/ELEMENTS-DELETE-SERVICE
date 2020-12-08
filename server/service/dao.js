@@ -1,38 +1,32 @@
-const { Client } = require('pg')
-require("dotenv").config()
+const Pool = require("pg").Pool;
+require("dotenv").config();
 
-let client = {}
+const pool = new Pool({
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
+  database: process.env.DATABASE,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+});
 
-function connect () {
-    client = new Client({
-        host: process.env.DB_HOST,
-        port: process.env.DB_PORT,
-        database: process.env.DATABASE,
-        user: process.env.DB_USER,
-        password: process.env.DB_PASSWORD
-    })
-    client.connect((error) => {
-        if (error) {
-            throw error
-        }
-    })
-}
+// https://node-postgres.com/features/pooling
+// the pool will emit an error on behalf of any idle clients
+// it contains if a backend error or network partition happens
+pool.on("error", (err, client) => {
+  console.error("Unexpected error on idle client", err);
+  process.exit(-1);
+});
 
-function query (query, values, resultCallback) {
-    client.query(query, values, (error, result) => {
-        if (error) {
-            throw error
-        }
-        resultCallback(result)
-    })
-}
-
-function disconnect () {
-    client.end()
+/**
+ * Ne pas oublier le support "ecmaVersion": 8
+ */
+async function shutdown() {
+  console.log("calling end");
+  await pool.end();
+  console.log("pool has drained");
 }
 
 module.exports = {
-    connect: connect,
-    disconnect: disconnect,
-    query: query
-}
+  pool: pool,
+  shutdown: shutdown,
+};
