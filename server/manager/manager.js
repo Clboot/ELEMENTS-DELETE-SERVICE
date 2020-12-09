@@ -1,17 +1,21 @@
 const { pool, shutdown } = require("../service/dao");
 require("dotenv").config();
 
+let poolConnection = {}
+pool.connect((err, client, done) =>{
+    if (err) {
+        throw err;
+      }
+    poolConnection = {client: client, done: done}
+})
+
 class DeleteElements {
   static delete(newItemsObject) {
     let pgJsonResult = null;
     const itemObjectArrayLength = newItemsObject.length;
     return new Promise((resolve) => {
-      pool.connect((err, client, done) => {
-        if (err) {
-          throw err;
-        }
       newItemsObject.map((item, index) => {
-        client.query(
+        poolConnection.client.query(
           "delete from elements where id = $1",
           [item.item_id],
           (error, result) => {
@@ -28,7 +32,6 @@ class DeleteElements {
         );
       });
 
-    })
     });
   }
 
@@ -36,12 +39,8 @@ class DeleteElements {
     let pgJsonResult = null;
     const itemObjectArrayLength = newItemsObject.length;
     return new Promise((resolve) => {
-      pool.connect((err, client, done) => {
-        if (err) {
-          throw err;
-        }
       newItemsObject.map((item, index) => {
-        client.query(
+        poolConnection.client.query(
           "insert into recycle_bin(name, item_id, type, parent_id, parent, date_creation) values($1, $2, $3, $4, $5, NOW())",
           [item.name, item.item_id, item.type, item.parent_id, item.parent],
           (error, result) => {
@@ -58,7 +57,6 @@ class DeleteElements {
         );
       });
 
-    })
     });
   }
 }
