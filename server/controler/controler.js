@@ -32,18 +32,17 @@ const recycle = (req, res) => {
     });
 
     manager.DeleteElements.delete(newItemsObject).then((result) => {
-      if (result.operation == "200") {
+      if (result.operation == process.env.HTTP_OK) {
         manager.DeleteElements.recycle(newItemsObject).then((result) => {
-          if (result.operation == "200") {
             sendData(res, result);
-          }
         });
       } else {
-        reponseJSON = { error: process.env.PROJECT_ALREADY_EXISTS };
+        reponseJSON = { error: process.env.DELETION_ERROR };
         sendData(res, reponseJSON);
       }
     });
   } catch (err) {
+    console.log(err)
     sendData(res, reponseJSON);
   }
 };
@@ -51,7 +50,7 @@ const recycle = (req, res) => {
 //-----------------------------------Send Data Request to Client-------------------------------------------------//
 
 const sendData = (res, searchJsonData) => {
-  res.writeHead(200, { "Content-Type": "application/json" });
+  res.writeHead(process.env.HTTP_OK, { "Content-Type": "application/json" });
   res.end(JSON.stringify(searchJsonData, null, 4));
 };
 

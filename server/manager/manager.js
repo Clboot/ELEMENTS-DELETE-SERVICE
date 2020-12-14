@@ -21,11 +21,11 @@ class DeleteElements {
           (error, result) => {
             if (result.rowCount > 0) {
               if (itemObjectArrayLength == index + 1) {
-                pgJsonResult = { operation: 200 };
+                pgJsonResult = { operation: process.env.HTTP_OK };
                 resolve(pgJsonResult);
               }
             } else {
-              pgJsonResult = { error: process.env.PROJECT_ALREADY_EXISTS };
+              pgJsonResult = { error: process.env.DELETION_ERROR };
               resolve(pgJsonResult);
             }
           }
@@ -46,11 +46,11 @@ class DeleteElements {
           (error, result) => {
             if (result.rowCount > 0) {
               if (itemObjectArrayLength === index + 1) {
-                pgJsonResult = { operation: 200 };
+                pgJsonResult = { operation: process.env.HTTP_OK };
                 resolve(pgJsonResult);
               }
             } else {
-              pgJsonResult = { error: process.env.PROJECT_ALREADY_EXISTS };
+              pgJsonResult = { error: process.env.CREATION_ERROR };
               resolve(pgJsonResult);
             }
           }
